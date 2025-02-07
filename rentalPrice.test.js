@@ -90,3 +90,68 @@ test("calculates the correct rental price for a driver with less than 3 years of
 
     expect(result).toBe(expectedPrice);
 });
+
+test("calculates the correct rental price for a driver with more than 10 days in low season", () => {
+    const pickupDate = "2023-01-01";
+    const dropoffDate = "2023-01-12";
+    const type = "Compact";
+    const age = 30;
+    const licenseOwnedDuration = 5;
+    const expectedPrice = "$324.00";
+
+    const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
+
+    expect(result).toBe(expectedPrice);
+});
+
+test("calculates the correct rental price for a driver with more than 10 days in high season", () => {
+    const pickupDate = "2023-06-01";
+    const dropoffDate = "2023-06-12";
+    const type = "Compact";
+    const age = 30;
+    const licenseOwnedDuration = 5;
+    const expectedPrice = "$414.00";
+
+    const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
+
+    expect(result).toBe(expectedPrice);
+});
+
+test("calculates the correct rental price for a driver with pickup and dropoff dates spanning high season start and end", () => {
+    const pickupDate = "2023-03-30";
+    const dropoffDate = "2023-04-02";
+    const type = "Compact";
+    const age = 30;
+    const licenseOwnedDuration = 5;
+    const expectedPrice = "$120.00";
+
+    const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
+
+    expect(result).toBe(expectedPrice);
+});
+
+test("calculates the correct rental price for a driver with pickup date in high season and dropoff date in low season", () => {
+    const pickupDate = "2023-10-30";
+    const dropoffDate = "2023-11-02";
+    const type = "Compact";
+    const age = 30;
+    const licenseOwnedDuration = 5;
+    const expectedPrice = "$138.00";
+
+    const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
+
+    expect(result).toBe(expectedPrice);
+});
+
+test("calculates the correct rental price for a driver with pickup date in high season and dropoff date in high season", () => {
+    const pickupDate = "2023-05-01";
+    const dropoffDate = "2023-05-10";
+    const type = "Compact";
+    const age = 30;
+    const licenseOwnedDuration = 5;
+    const expectedPrice = "$345.00";
+
+    const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
+
+    expect(result).toBe(expectedPrice);
+});
