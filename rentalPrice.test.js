@@ -1,4 +1,4 @@
-const { getPrice } = require("./rentalPrice");
+const { getPrice, isWeekend } = require("./rentalPrice");
 
 test("calculates the correct rental price for a young driver with a compact car", () => {
     const pickupDate = "2023-06-01";
@@ -154,4 +154,34 @@ test("calculates the correct rental price for a driver with pickup date in high 
     const result = getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration);
 
     expect(result).toBe(expectedPrice);
+});
+
+test("15.02.2025 is weekend", () => {
+    expect(isWeekend(new Date('2025-02-15')))
+    .toBe(true);
+});
+
+test("14.02.2025 is not weekend", () => {
+    expect(isWeekend(new Date('2025-02-14')))
+    .toBe(false);
+})
+
+test("15.02.2025 price increase 5%", () => {
+    expect(getPrice('2025-02-15', '2025-02-16', 'Compact', 30, 5))
+    .toBe("$63.00");	
+});
+
+test("14.02.2025 price not increase", () => {
+    expect(getPrice('2025-02-12', '2025-02-14', 'Compact', 30, 5))
+    .toBe("$90.00");	
+});
+
+test("rent monday to wednesday", () => {
+    expect(getPrice('2025-02-10', '2025-02-12', 'Compact', 50, 5))
+    .toBe("$150.00");	
+});
+
+test("rent thursday to saturday", () => {
+    expect(getPrice('2025-02-13', '2025-02-15', 'Compact', 50, 5))
+    .toBe("$152.50");	
 });

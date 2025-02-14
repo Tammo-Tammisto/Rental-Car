@@ -36,6 +36,20 @@ function getPrice(pickupDate, dropoffDate, type, age, licenseOwnedDuration) {
         rentalprice += 15 * days;
     }
 
+    const pickupDateObj = new Date(pickupDate);
+    const dropoffDateObj = new Date(dropoffDate);
+    if (isWeekend(pickupDateObj) || isWeekend(dropoffDateObj)) {
+    let weekendDays = 0;
+
+    while (pickupDateObj <= dropoffDateObj) {
+        if (isWeekend(pickupDateObj)) {
+            weekendDays++;
+        }
+        pickupDateObj.setDate(pickupDateObj.getDate() + 1);
+    }
+
+    rentalprice += (rentalprice / days) * weekendDays * 0.05;}
+
     return "$" + rentalprice.toFixed(2);
 }
 
@@ -68,4 +82,10 @@ function getSeason(pickupDate, dropoffDate) {
     return "Low";
 }
 
+function isWeekend(date) {
+    const day = date.getDay();
+    return day === 0 || day === 6; // 0 is Sunday, 6 is Saturday
+}
+
 exports.getPrice = getPrice;
+exports.isWeekend = isWeekend;
